@@ -1,0 +1,41 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "UI/src/main.jsx",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "UI/dist"
+            }
+        },
+        {
+            "src": "api/**/*",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/shorten",
+            "dest": "/api/url-service/shorten.js"
+        },
+        {
+            "src": "/api/history",
+            "dest": "/api/url-service/history.js"
+        },
+        {
+            "src": "/api/short/:shortUrl",
+            "dest": "/api/redirect-service/short.js"
+        },
+        {
+            "src": "/api/clicks/:shortUrl",
+            "dest": "/api/click-history-service/record-click.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/UI/dist/$1"
+        }
+    ],
+    "env": {
+        "DB_CONNECTION_STRING": "@db_connection_string"
+    }
+}
